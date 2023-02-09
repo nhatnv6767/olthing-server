@@ -10,7 +10,7 @@ const categorySchema = mongoose.Schema({
   img: {
     type: String,
     required: true,
-    validate: [valid.isUrl, 'wrong url'],
+    validate: [valid.isUrl, 'sai đường dẫn'],
   },
   children: [
     {
