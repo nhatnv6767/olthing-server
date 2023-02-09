@@ -12,6 +12,10 @@ app.use(express.json())
 // connect db
 ConnectDb()
 
+// routes
+// app.use('/api/products')
+
+// root route
 app.get('/', (req, res) => res.send('Apps worked successfully'))
 
 app.use((err, req, res, next) => {
