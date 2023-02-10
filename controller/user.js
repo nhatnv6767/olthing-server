@@ -134,3 +134,11 @@ exports.checkRole = async (req, res) => {
     res.status(500)
   }
 }
+
+exports.passwordReset = async (req, res) => {
+  try {
+
+  } catch (err) {
+    res.status(500)
+  }
+}
