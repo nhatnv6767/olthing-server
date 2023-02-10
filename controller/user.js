@@ -16,7 +16,7 @@ exports.postLogin = async (req, res) => {
 
     if (!valid) {
       return res.status(401).json({
-        errors
+        errors,
       })
     }
 
@@ -25,7 +25,7 @@ exports.postLogin = async (req, res) => {
     })
     if (!user) {
       return res.status(401).json({
-        error: "Email or mật khẩu không chính xác"
+        error: 'Email or mật khẩu không chính xác',
       })
     }
 
@@ -33,7 +33,7 @@ exports.postLogin = async (req, res) => {
 
     if (!isEqual) {
       return res.status(401).json({
-        error: "Email or mật khẩu không chính xác"
+        error: 'Email or mật khẩu không chính xác',
       })
     }
 
@@ -41,7 +41,7 @@ exports.postLogin = async (req, res) => {
     return res.status(200).json({
       id: user.id,
       token,
-      tokenExpiration: "24h"
+      tokenExpiration: '24h',
     })
 
   } catch (err) {
@@ -59,7 +59,7 @@ exports.postRegister = async (req, res) => {
     const password = req.body.password
 
     const { valid, errors } = validateRegisterInput(
-      name, username, email, phone, password
+      name, username, email, phone, password,
     )
 
     if (!valid) {
@@ -71,7 +71,7 @@ exports.postRegister = async (req, res) => {
 
     if (existingUser) {
       return res.status(401).json({
-        error: "Xin lỗi! Email đã có người sử dụng"
+        error: 'Xin lỗi! Email đã có người sử dụng',
       })
     }
 
@@ -82,15 +82,15 @@ exports.postRegister = async (req, res) => {
       username,
       email,
       phone,
-      role: "user",
+      role: 'user',
       password: hasedPassword,
-      orders: []
+      orders: [],
     })
 
     await user.save()
 
     res.status(200).json({
-      message: "Đã đăng ký thành công tài khoản"
+      message: 'Đã đăng ký thành công tài khoản',
     })
 
   } catch (err) {
@@ -108,6 +108,27 @@ exports.userDetails = async (req, res) => {
     return res.status(200).json({
       user,
     })
+
+  } catch (err) {
+    res.status(500)
+  }
+}
+
+exports.checkRole = async (req, res) => {
+  try {
+
+    const userId = req.body.userId
+    const user = await User.findById({ _id: userId })
+
+    if (user.role === 'user') {
+      res.status(200).json({
+        role: 'user',
+      })
+    } else {
+      res.status(200).json({
+        role: 'admin',
+      })
+    }
 
   } catch (err) {
     res.status(500)
