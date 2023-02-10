@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 
-const ConnectDb = require('./config/db')
+const db = require('./config/db')
 
 // app initialization
 const app = express()
@@ -10,7 +10,7 @@ const app = express()
 app.use(express.json())
 
 // connect db
-ConnectDb()
+db.makeDb()
 
 // routes
 // app.use('/api/products')
