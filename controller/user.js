@@ -138,6 +138,17 @@ exports.checkRole = async (req, res) => {
 exports.passwordReset = async (req, res) => {
   try {
 
+    const email = req.body.email
+    const password = req.body.password
+    const newpassword = req.body.newpassword
+
+    // check user email
+    const user = await User.findOne({ email })
+
+    if (!user) {
+
+    }
+
   } catch (err) {
     res.status(500)
   }
