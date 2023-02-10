@@ -97,3 +97,19 @@ exports.postRegister = async (req, res) => {
     res.status(500)
   }
 }
+
+exports.userDetails = async (req, res) => {
+  try {
+
+    const _id = req.params.id
+    const user = await User.findById({
+      _id,
+    })
+    return res.status(200).json({
+      user,
+    })
+
+  } catch (err) {
+    res.status(500)
+  }
+}
