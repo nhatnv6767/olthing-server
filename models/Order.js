@@ -1,89 +1,75 @@
 const mongoose = require('mongoose')
-const AutoIncrement = require('mongoose-sequence')(mongoose)
+const Schema = mongoose.Schema
 
-const orderSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    invoice: {
-      type: Number,
-      required: false,
-    },
-    cart: [{}],
-    name: {
-      type: String,
-    },
-    address: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-    },
-    contact: {
-      type: String,
-      required: true,
-    },
-    city: {
-      type: String,
-      required: true,
-    },
-    country: {
-      type: String,
-      required: true,
-    },
-    zipCode: {
-      type: String,
-      required: true,
-    },
-    subTotal: {
-      type: Number,
-      required: true,
-    },
-    shippingCost: {
-      type: Number,
-      required: true,
-    },
-    discount: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    totalAmount: {
-      type: Number,
-      required: true,
-    },
-    shippingOption: {
-      type: String,
-      required: false,
-    },
-    cardInfo: {
-      type: Object,
-      required: false,
-    },
-    paymentIntent: {
-      type: Object,
-      required: false,
-    },
-    status: {
-      type: String,
-      enum: ['Pending', 'Processing', 'Delivered'],
-    },
-  }, {
-    timestamps: true,
+const orderSchema = new Schema({
+  userId: {
+    type: String,
+    required: true,
   },
-)
+  user_first_name: {
+    type: String,
+    required: true,
+  },
+  user_last_name: {
+    type: String,
+    required: true,
+  },
+  company_name: {
+    type: String,
+    required: false,
+  },
+  user_email: {
+    type: String,
+    required: true,
+  },
+  // sau nay cap nhat them vao facebook
+  user_phone: {
+    type: String,
+    required: true,
+  },
+  user_country: {
+    type: String,
+    required: true,
+  },
+  user_address: {
+    type: String,
+    required: true,
+  },
+  user_city: {
+    type: String,
+    required: true,
+  },
+  user_postcode: {
+    type: String,
+    required: true,
+  },
+  user_order_notes: {
+    type: String,
+    required: false,
+  },
+  totalPrice: {
+    type: Number,
+    default: 0.0,
+  },
+  orderItems: [
+    {
+      name: { type: String },
+      quantity: { type: Number },
+      price: { type: Number },
+      image_public_id: {
+        type: String,
+      },
+    },
+  ],
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
+  isDelivered: {
+    type: Boolean,
+    default: false,
+  },
 
-const Order = mongoose.models.Order || mongoose.model(
-  'Order',
-  orderSchema.plugin(AutoIncrement, {
-    inc_field: 'invoice',
-    start_seq: 10000,
-  }),
-)
+})
 
-module.exports = Order
+module.exports = mongoose.model('Order', orderSchema)
