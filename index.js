@@ -4,6 +4,7 @@ const express = require('express')
 const db = require('./config/db')
 const userRoutes = require('./routes/user')
 const productRoutes = require('./routes/product')
+const orderRoutes = require('./routes/order')
 
 // app initialization
 const app = express()
@@ -17,6 +18,7 @@ db.makeDb()
 // routes
 app.use('/products', productRoutes)
 app.use('/user', userRoutes)
+app.use('/order', orderRoutes)
 
 // root route
 app.get('/', (req, res) => res.send('Apps worked successfully'))
