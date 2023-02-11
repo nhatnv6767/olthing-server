@@ -13,8 +13,13 @@ const orderRoutes = require('./routes/order')
 const app = express()
 
 // middleware
-app.use(express.json())
-
+// app.use(express.json())
+app.use(bodyParser.json())
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+)
 // connect db
 db.makeDb()
 
