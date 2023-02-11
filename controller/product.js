@@ -64,3 +64,17 @@ exports.addProduct = async (req, res) => {
     res.status(500)
   }
 }
+
+exports.fetchProduct = async (req, res) => {
+  try {
+    const id = req.params.productId;
+    const product = await Product.findById({ _id: id })
+
+    res.status(200).json({
+      product
+    })
+
+  } catch (e) {
+    res.status(500)
+  }
+}
