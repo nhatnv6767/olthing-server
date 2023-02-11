@@ -43,3 +43,12 @@ exports.addOrderInfo = async (req, res) => {
     res.status(500)
   }
 }
+
+exports.fetchOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).populate('user', 'id name')
+    res.json(orders)
+  } catch (err) {
+    res.status(500)
+  }
+}
