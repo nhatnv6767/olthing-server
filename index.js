@@ -1,5 +1,8 @@
 require('dotenv').config()
 const express = require('express')
+const bodyParser = require('body-parser')
+const path = require('path')
+const fileUpload = require('express-fileupload')
 
 const db = require('./config/db')
 const userRoutes = require('./routes/user')
