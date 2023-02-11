@@ -3,6 +3,7 @@ const express = require('express')
 
 const db = require('./config/db')
 const userRoutes = require('./routes/user')
+const productRoutes = require('./routes/product')
 
 // app initialization
 const app = express()
@@ -14,6 +15,7 @@ app.use(express.json())
 db.makeDb()
 
 // routes
+app.use('/products', productRoutes)
 app.use('/user', userRoutes)
 
 // root route
