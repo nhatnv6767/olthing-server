@@ -146,9 +146,27 @@ exports.passwordReset = async (req, res) => {
     const user = await User.findOne({ email })
 
     if (!user) {
-
+      return res.status(401).json({
+        error: 'Email không chính xác',
+      })
+    }
+    const isEqual = await bcrypt.compare(password, user.password)
+    if (!isEqual) {
+      return res.status(401).json({
+        error: 'Email hoặc mật khẩu không đúng',
+      })
     }
 
+    const hashedPassword = await bcrypt.hash(newpassword, 12)
+    user.password = hashedPassword
+    const updateUserPassword = await user.save()
+    const token = genAccTkn.generateAccessToken(user)
+    return res.status(200).json({
+      id: user.id,
+      token,
+      tokenExpiration: '24h',
+      message: 'Mật khẩu đã được cập nhật',
+    })
   } catch (err) {
     res.status(500)
   }
