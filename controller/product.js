@@ -33,14 +33,14 @@ exports.fetchProducts = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
   try {
-    const name = req.body.product_name;
-    const description = req.body.product_description;
-    const type = req.body.product_type;
+    const name = req.body.product_name
+    const description = req.body.product_description
+    const type = req.body.product_type
     const price = req.body.product_price
     const color = req.body.product_color
     const total_in_stock = req.body.total_in_stock
     const image_public_id = req.body.image_public_id
-    const file = req.files.file;
+    const file = req.files.file
 
     const product = new Product({
       name,
@@ -57,7 +57,7 @@ exports.addProduct = async (req, res) => {
 
     await product.save()
     return res.status(200).json({
-      message: "Đã thêm 1 sản phẩm"
+      message: 'Đã thêm 1 sản phẩm',
     })
 
   } catch (e) {
@@ -67,13 +67,27 @@ exports.addProduct = async (req, res) => {
 
 exports.fetchProduct = async (req, res) => {
   try {
-    const id = req.params.productId;
+    const id = req.params.productId
     const product = await Product.findById({ _id: id })
 
     res.status(200).json({
-      product
+      product,
     })
 
+  } catch (e) {
+    res.status(500)
+  }
+}
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const productId = req.body.productId
+    await Product.deleteOne({ _id: productId })
+    const products = await Product.find({})
+    return res.status(200).json({
+      message: 'Đã xoá sản phẩm thành công',
+      products,
+    })
   } catch (e) {
     res.status(500)
   }
