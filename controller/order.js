@@ -52,3 +52,27 @@ exports.fetchOrders = async (req, res) => {
     res.status(500)
   }
 }
+
+exports.updateOrderToDelivered = async (req, res) => {
+  const order = await Order.findById(req.params.id)
+
+  if (order) {
+    order.isDelivered = true
+    const updateOrder = await order.save()
+    res.json(updateOrder)
+  } else {
+    res.status(404)
+    throw new Error("Không tìm thấy đơn đặt hàng")
+  }
+}
+
+exports.getOrdersByUser = async (req, res) => {
+  try {
+    const order = await Order.find({ userId: req.params.id })
+    if (!order) return res.status(404).
+      json({ msg: "Đơn đặt hàng không tồn tại" })
+    res.status(200).json(order)
+  } catch (e) {
+    res.status(500)
+  }
+}
