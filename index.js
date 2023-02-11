@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 
 const db = require('./config/db')
+const userRoutes = require('./routes/user')
 
 // app initialization
 const app = express()
@@ -13,7 +14,7 @@ app.use(express.json())
 db.makeDb()
 
 // routes
-// app.use('/api/products')
+app.use('/user', userRoutes)
 
 // root route
 app.get('/', (req, res) => res.send('Apps worked successfully'))
