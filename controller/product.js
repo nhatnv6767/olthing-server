@@ -92,3 +92,39 @@ exports.deleteProduct = async (req, res) => {
     res.status(500)
   }
 }
+
+exports.editProduct = async (req, res) => {
+  try {
+
+    const prodId = req.body.product_id;
+    const name = req.body.product_name
+    const description = req.body.product_description
+    const type = req.body.product_type
+    const price = req.body.product_price
+    const color = req.body.product_color
+    const image_public_id = req.body.image_public_id
+    const total_in_stock = req.body.total_in_stock
+
+    await Product.updateOne(
+      { _id: prodId },
+      {
+        $set: {
+          name,
+          description,
+          type,
+          price,
+          color,
+          total_in_stock,
+          image_public_id
+        }
+      }
+    )
+
+    res.status(200).json({
+      message: "Sản phẩm đã được sửa"
+    })
+
+  } catch (e) {
+    res.status(500)
+  }
+}
